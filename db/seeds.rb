@@ -1,4 +1,5 @@
 
+user = User.create(email: Faker::Internet.email, password: Faker::Internet.password(10, 20))
 
 10.times do
     user = User.create(email: Faker::Internet.email, password: Faker::Internet.password(10, 20))
