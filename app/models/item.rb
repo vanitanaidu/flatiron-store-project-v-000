@@ -7,8 +7,8 @@ class Item < ActiveRecord::Base
 
 
   def self.available_items
-    binding.pry
-    if self.inventory = 0
+    Item.all.select do |item|
+      item if item.inventory > 0
 
     end
   end

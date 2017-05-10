@@ -2,14 +2,26 @@ class CartsController < ApplicationController
   before_action :authenticate_user!
 
   def show
-  #   binding.pry
-  # "/carts/1"
-    @item = Item.find(params[:id])
+    @current_cart = current_user.current_cart
+    @items = @current_cart.items
   end
 
   def checkout
+    @items = current_user.current_cart.items
+    @items.each do |item|
+       item.line_items.each do |line_item|
+         item.inventory -= line_item.quantity
+        # same as the line above:  item.inventory = (item.inventory - line_item.quantity)
+         item.save
+         current_user.current_cart.destroy
+       end
+     end
+   end
 
+private
 
+  def cart_params
+    params.require(:cart).permit(:user_id)
   end
 
 
