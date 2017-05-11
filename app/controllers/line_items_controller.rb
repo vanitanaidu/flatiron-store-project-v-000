@@ -1,8 +1,11 @@
 class LineItemsController < ApplicationController
 
   def create
-    @item = Item.find(params[:item_id])
-     redirect_to cart_path(id: @item)
+    @cart = current_user.current_cart ||= Cart.new
+    @cart.add_item(params[:item_id])
+    @cart.save
+
+     redirect_to cart_path(@cart)
   end
 
 end
